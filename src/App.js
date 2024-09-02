@@ -1,24 +1,36 @@
-import logo from './logo.svg';
 import './App.css';
+import DynamicTextInput from './components/DynamicsTextInput';
+import SketchInput from './components/SketchInput';
+import GridDisplay from './components/GridDisplay';
+import { Flex, Container, Box, Center, Button } from '@chakra-ui/react';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container maxW="container.2xl" p={10}>
+        <Flex w='100%' justify='space-around' align='top'>
+          <Box w='50%' p='2'>
+            <DynamicTextInput />
+          </Box>
+          <Box w='50%' p='2'>
+            <SketchInput />
+          </Box>
+        </Flex>
+        <Center w='100%' py={8}>
+          <Button
+              size='md'
+              height='48px'
+              width='200px'
+              colorScheme='orange'
+            >
+              Submit
+          </Button>
+        </Center>
+        <Box w='100%'>
+          <GridDisplay />
+        </Box>
+    </Container>
+      
+  
   );
 }
 
