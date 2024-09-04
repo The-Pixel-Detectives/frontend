@@ -11,7 +11,8 @@ function App() {
   const textInputRef = useRef();
   const sketchInputRef = useRef();
   // State to hold the combined results and thumbnails
-  const [thumbnails, setThumbnails] = useState([]);
+  // const [thumbnails, setThumbnails] = useState([]);
+  const [searchResults, setSearchResults] = useState([])
 
   // Handle submit: collect inputs from both components and search
   const handleSubmit = async () => {
@@ -24,18 +25,19 @@ function App() {
     console.log('Sketch Files:', sketchFiles);
 
     // Combine text inputs and sketches in a single API call
-    const searchResults = await searchVideos(sketchFiles, textInputs);
+    const results = await searchVideos(sketchFiles, textInputs);
 
     // Fetch thumbnails for each search result
-    if (searchResults.length > 0) {
-      const thumbnailResults = await Promise.all(
-        searchResults.map(async (result) => {
-          const thumbnail = await getVideoThumbnail(result.video_id, result.frame_indices);
-          return { video_id: result.video_id, thumbnail };
-        })
-      );
-      setThumbnails(thumbnailResults); // Update thumbnails state
-    }
+    // if (searchResults.length > 0) {
+    //   const thumbnailResults = await Promise.all(
+    //     searchResults.map(async (result) => {
+    //       const thumbnail = await getVideoThumbnail(result.video_id, result.frame_indices);
+    //       return { video_id: result.video_id, thumbnail };
+    //     })
+    //   );
+    //   setThumbnails(thumbnailResults); // Update thumbnails state
+    // }
+    setSearchResults(results)
   };
 
   return (
@@ -64,7 +66,7 @@ function App() {
       </Center>
       <Box w='100%'>
         {/* Pass the search results (thumbnails) to GridDisplay */}
-        <GridDisplay searchResults={thumbnails} />
+        <GridDisplay searchResults={searchResults} />
       </Box>
     </Container>
   );

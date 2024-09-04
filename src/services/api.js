@@ -1,27 +1,17 @@
 
 // src/services/api.js
-
 import axios from 'axios';
 
 // Set up the base URL for your API
-const API_BASE_URL = 'http://localhost:8000';  // Adjust the URL to match your backend server
+const API_BASE_URL = 'http://172.25.234.37:8000';  // Adjust the URL to match your backend server
 
 // Function to search videos
 export const searchVideos = async (sketches, textQueries) => {
-  const formData = new FormData();
-  sketches.forEach((sketch) => {
-    formData.append('sketches', sketch);
-  });
-  textQueries.forEach((query) => {
-    formData.append('text_queries', query);
-  });
-
   try {
-    const response = await axios.post(`${API_BASE_URL}/search`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const response = await axios.post(`${API_BASE_URL}/search`, {
+        sketches: [],
+        text_queries: textQueries,
+        top_k: 20});
     return response.data.videos;  // Access 'videos' property from the response
   } catch (error) {
     console.error('Error searching videos:', error);

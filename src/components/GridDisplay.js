@@ -5,7 +5,6 @@ function GridDisplay({ searchResults }) {
   return (
     <Box mt={8} width="100%">
       {/* SimpleGrid to display thumbnails in a grid format */}
-      <SimpleGrid columns={[1, 2, 3, 4, 5]} spacing={4} width="100%">
         {searchResults.length > 0 ? (
           searchResults.map((result, index) => (
             <Box
@@ -13,14 +12,15 @@ function GridDisplay({ searchResults }) {
               borderWidth="1px"
               borderRadius="md"
               overflow="hidden"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
               bg="gray.100"
-              height="150px"
             >
+            <Text>Video ID: {result.video_id}</Text>
+            <Text>Frame Indexes: {result.frame_indices.join(', ')}</Text>
+            <Text>Key Frame: {result.keyframes.join(', ')}</Text>
+            <Text>Score: {result.score}</Text>
+            <Text>Local file path: {result.local_file_path}</Text>
               <Image
-                src={result.thumbnail} // Thumbnail URL from search results
+                src={`http://172.25.234.37:8000/thumbnail?group_id=${result.group_id}&video_id=${result.video_id}&frame_indices=${result.keyframes.join(',')}&is_keyframe=true`} // Thumbnail URL from search results
                 alt={`Thumbnail for video ${result.video_id}`}
                 objectFit="cover"
                 width="100%"
@@ -31,7 +31,6 @@ function GridDisplay({ searchResults }) {
         ) : (
           <Text>No results found.</Text>
         )}
-      </SimpleGrid>
     </Box>
   );
 }
