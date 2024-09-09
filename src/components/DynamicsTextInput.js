@@ -1,5 +1,5 @@
 import React, { useState, forwardRef, useImperativeHandle } from 'react';
-import { Button, VStack, Input, HStack, IconButton, Box } from '@chakra-ui/react';
+import { Button, VStack, Input, HStack, IconButton, Box, Textarea } from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';
 
 const DynamicTextInput = forwardRef((props, ref) => {
@@ -36,7 +36,7 @@ const DynamicTextInput = forwardRef((props, ref) => {
         <VStack spacing="4" flex="1">
           {inputs.map((input, index) => (
             <HStack key={index} width="100%">
-              <Input
+              <Textarea
                 value={input}
                 placeholder="Text Input"
                 size="md"
