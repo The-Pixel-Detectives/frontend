@@ -11,34 +11,26 @@ function App() {
   const textInputRef = useRef();
   const sketchInputRef = useRef();
   // State to hold the combined results and thumbnails
-  // const [thumbnails, setThumbnails] = useState([]);
-  const [searchResults, setSearchResults] = useState([])
+  const [searchResults, setSearchResults] = useState([]);
 
   // Handle submit: collect inputs from both components and search
   const handleSubmit = async () => {
     setSearchResults([])
     console.log('Submit button clicked');
+    
     // Get text inputs and sketch files from both components
     const textInputs = textInputRef.current.getInputs();
+    const videoId = textInputRef.current.getVideoId(); // Get Video ID
     const sketchFiles = sketchInputRef.current.getFiles();
 
     console.log('Text Inputs:', textInputs);
+    console.log('Video ID:', videoId); // Log Video ID
     console.log('Sketch Files:', sketchFiles);
 
-    // Combine text inputs and sketches in a single API call
-    const results = await searchVideos(sketchFiles, textInputs);
+    // Combine text inputs, video ID, and sketches in a single API call
+    const results = await searchVideos(videoId, sketchFiles, textInputs); // Pass the video ID to the API
 
-    // Fetch thumbnails for each search result
-    // if (searchResults.length > 0) {
-    //   const thumbnailResults = await Promise.all(
-    //     searchResults.map(async (result) => {
-    //       const thumbnail = await getVideoThumbnail(result.video_id, result.frame_indices);
-    //       return { video_id: result.video_id, thumbnail };
-    //     })
-    //   );
-    //   setThumbnails(thumbnailResults); // Update thumbnails state
-    // }
-    setSearchResults(results)
+    setSearchResults(results); // Update search results
   };
 
   return (
@@ -66,7 +58,7 @@ function App() {
         </Button>
       </Center>
       <Box w='100%'>
-        {/* Pass the search results (thumbnails) to GridDisplay */}
+        {/* Pass the search results to GridDisplay */}
         <GridDisplay searchResults={searchResults} />
       </Box>
     </Container>

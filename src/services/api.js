@@ -6,7 +6,7 @@ export const API_BASE_URL = "http://172.25.234.37:8000"; // Adjust the URL to ma
 // export const API_BASE_URL = "http://localhost:8000"; // Adjust the URL to match your backend server
 
 // Function to search videos
-export const searchVideos = async (sketches, textQueries) => {
+export const searchVideos = async (videoID, sketches, textQueries) => {
 	const image_ids = []
 	console.log(sketches)
 	if (sketches.length > 0) {
@@ -16,12 +16,13 @@ export const searchVideos = async (sketches, textQueries) => {
 			image_ids.push(id);
 		}
 	}
-
+  console.log('In api.js', textQueries)
 	try {
 		const response = await axios.post(`${API_BASE_URL}/search`, {
 			image_ids: image_ids,
 			text_queries: textQueries,
 			top_k: 20,
+      video_id: videoID
 		});
 		return response.data.videos; // Access 'videos' property from the response
 	} catch (error) {
@@ -67,4 +68,17 @@ export const fetchVideoPreview = async (groupId, videoId, startIndex, endIndex, 
         console.error("Error fetching video preview:", error);
         return [];
     }
+};
+
+export const translateQuery = async (query, numFrames) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/translate`, {
+      query: query,
+      num_frames: numFrames,
+    });
+    return response.data.sentences;  // Access the 'sentences' array from the response
+  } catch (error) {
+    console.error('Error during translation:', error);
+    throw error;  // Re-throw the error to be handled in the component
+  }
 };

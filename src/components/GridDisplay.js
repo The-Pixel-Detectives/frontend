@@ -5,7 +5,6 @@ import { API_BASE_URL } from "../services/api";
 
 function GridDisplay({ searchResults }) {
 
-
   const handleVideoClick = (groupId, videoId) => {
     const previewUrl = `/preview?group_id=${groupId}&video_id=${videoId}`; 
     window.open(previewUrl, '_blank'); // Open the preview page in a new tab
