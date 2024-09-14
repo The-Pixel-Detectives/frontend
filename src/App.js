@@ -15,6 +15,7 @@ function App() {
 
   // Handle submit: collect inputs from both components and search
   const handleSubmit = async () => {
+    setSearchResults([])
     console.log('Submit button clicked');
     
     // Get text inputs and sketch files from both components
