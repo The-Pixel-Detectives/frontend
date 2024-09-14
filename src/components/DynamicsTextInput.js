@@ -1,44 +1,46 @@
 import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import { Button, VStack, HStack, IconButton, Box, Input, Textarea } from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';
-
-// Simulating the API call for translation
-const simulateTranslationApiCall = async (vietnameseText, numberOfQueries) => {
-  // Calculate the length of each chunk based on the number of queries
-  const chunkSize = Math.ceil(vietnameseText.length / numberOfQueries);
-  
-  // Split the text evenly into chunks
-  const translatedArray = Array.from({ length: numberOfQueries }, (_, idx) => {
-    const start = idx * chunkSize;
-    const end = start + chunkSize;
-    return `Translated part ${idx + 1}: ${vietnameseText.slice(start, end).trim()}`;
-  });
-
-  return translatedArray;
-};
+import { translateQuery } from '../services/api';  // Import the translateQuery function
 
 const DynamicTextInput = forwardRef((props, ref) => {
-  const { onSubmit } = props; // Accept the onSubmit function from App.js as a prop
+  const { onSubmit } = props;
   const [inputs, setInputs] = useState([]); // Dynamic input fields for translations
   const [vietnamesePrompt, setVietnamesePrompt] = useState(''); // Vietnamese input field
   const [videoId, setVideoId] = useState(''); // Video ID input field
   const [queries, setQueries] = useState(1); // Number of queries input field
+  const [errorMessage, setErrorMessage] = useState(''); // Error message state
+  const [isLoading, setIsLoading] = useState(false); // Loading state
+
+  
+
+  // Handle translation using the API
+  const handleTranslate = async () => {
+    setIsLoading(true);
+    try {
+      // Ensure queries is an integer
+      const numQueries = Math.max(parseInt(queries, 10), 1);
+
+      console.log('Original Vietnamese Input:', vietnamesePrompt);
+      console.log('Number of Queries: ', numQueries);
+      // Call the translateQuery function from api.js
+      const translatedArray = await translateQuery(vietnamesePrompt, numQueries);
+
+      // Set the inputs state with the array of sentences
+      setInputs(translatedArray);
+      console.log('Translated Sentences:', translatedArray);
+      setErrorMessage(''); // Clear any previous errors
+    } catch (error) {
+      console.error('Error during translation:', error);
+      setErrorMessage('Failed to translate. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Function to handle adding a new empty input field
   const handleAddInput = (translatedText = '') => {
     setInputs([...inputs, translatedText]); // Add new input (empty or with value)
-  };
-
-  // Handle translation using a simulated API call
-  const handleTranslate = async () => {
-    try {
-      const translatedArray = await simulateTranslationApiCall(vietnamesePrompt, queries); // Simulate API call with queries
-      setInputs(translatedArray); // Display the translated array in the text areas
-      console.log('Original Vietnamese Input:', vietnamesePrompt);
-      console.log('Translated Array:', translatedArray); // Log the translated array
-    } catch (error) {
-      console.error("Error during translation:", error);
-    }
   };
 
   // Function to handle input field changes
@@ -88,6 +90,7 @@ const DynamicTextInput = forwardRef((props, ref) => {
               colorScheme="green"
               size="md"
               onClick={handleTranslate}
+              isLoading={isLoading}  // Show loading state
             >
               Translate
             </Button>
@@ -99,16 +102,16 @@ const DynamicTextInput = forwardRef((props, ref) => {
               variant="outline"
               focusBorderColor="blue"
               onChange={(e) => {
-              const value = e.target.value;
-              // Allow the field to be empty
-              if (value === '' || parseInt(value) >= 0) {
-                setQueries(value); // Allow empty string or valid numbers
-              }
+                const value = e.target.value;
+                // Allow the field to be empty or a valid number
+                if (value === '' || parseInt(value) >= 0) {
+                  setQueries(value);
+                }
               }}
               min={1}
               width="100px" // Adjust width as necessary
               mt={1} // Margin between button and input
-              />
+            />
           </VStack>
 
           {/* Vietnamese Text Input */}
@@ -124,6 +127,13 @@ const DynamicTextInput = forwardRef((props, ref) => {
           />
         </HStack>
       </VStack>
+
+      {/* Display error message if any */}
+      {errorMessage && (
+        <Box color="red.500" mb="4">
+          {errorMessage}
+        </Box>
+      )}
 
       {/* Dynamic Translation Input Fields */}
       <VStack spacing="4" w="100%" px="2" mb="4">

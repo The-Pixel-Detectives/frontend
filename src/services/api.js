@@ -9,7 +9,7 @@ const API_BASE_URL = 'http://172.25.234.37:8000';  // Adjust the URL to match yo
 export const searchVideos = async (sketches, textQueries) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/search`, {
-        sketches: [],
+        image_ids: [],
         text_queries: textQueries,
         top_k: 20});
     return response.data.videos;  // Access 'videos' property from the response
@@ -33,5 +33,18 @@ export const getVideoThumbnail = async (videoId, frameIndices) => {
   } catch (error) {
     console.error('Error getting video thumbnail:', error);
     return '';
+  }
+};
+
+export const translateQuery = async (query, numFrames) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/translate`, {
+      query: query,
+      num_frames: numFrames,
+    });
+    return response.data.sentences;  // Access the 'sentences' array from the response
+  } catch (error) {
+    console.error('Error during translation:', error);
+    throw error;  // Re-throw the error to be handled in the component
   }
 };
