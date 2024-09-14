@@ -43,3 +43,28 @@ const uploadImage = async (image) => {
 	}
 
 }
+
+export const fetchVideoPreview = async (groupId, videoId, startIndex, endIndex, numSkipFrames) => {
+    try {
+        // Make the GET request to fetch the video preview as binary data
+        const response = await axios.get(`${API_BASE_URL}/get-video-preview`, {
+            params: {
+                group_id: groupId,
+                video_id: videoId,
+                start_index: startIndex,
+                end_index: endIndex,
+                num_skip_frames: numSkipFrames,
+            },
+            responseType: 'blob', // Important to set response type as blob for binary data
+        });
+
+        console.log('Full API response:', response); // Log the full response object
+
+        // Create a URL from the binary data (blob) and return it
+        const imageUrl = URL.createObjectURL(response.data);
+        return [imageUrl]; // Return as an array since we're handling one or more images
+    } catch (error) {
+        console.error("Error fetching video preview:", error);
+        return [];
+    }
+};
