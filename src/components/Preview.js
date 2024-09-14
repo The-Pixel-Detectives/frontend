@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Input, Button, Image, VStack, Text } from '@chakra-ui/react';
+import { Box, Input, Button, Image, VStack, Text, SimpleGrid} from '@chakra-ui/react';
 import { useLocation } from 'react-router-dom';
 import { fetchVideoPreview } from '../services/api'; // Import the API call function
 
@@ -32,56 +32,59 @@ function Preview() {
   return (
     <Box p={8}>
       <Text fontSize="2xl" fontWeight="bold">Video Preview</Text>
-      <VStack align="start" spacing={4} mt={4}>
-        <Box>
-          <Text>Group ID:</Text>
-          <Input
-            placeholder="Enter group ID"
-            value={groupId}
-            onChange={(e) => setGroupId(e.target.value)}
-          />
-        </Box>
+      <SimpleGrid columns={2} spacing={4} mt={4}>
+  <Box>
+    <Text>Group ID:</Text>
+    <Input
+      placeholder="Enter group ID"
+      value={groupId}
+      onChange={(e) => setGroupId(e.target.value)}
+    />
+  </Box>
 
-        <Box>
-          <Text>Video ID:</Text>
-          <Input
-            placeholder="Enter video ID"
-            value={videoId}
-            onChange={(e) => setVideoId(e.target.value)}
-          />
-        </Box>
+  <Box>
+    <Text>Video ID:</Text>
+    <Input
+      placeholder="Enter video ID"
+      value={videoId}
+      onChange={(e) => setVideoId(e.target.value)}
+    />
+  </Box>
 
-        <Box>
-          <Text>Start Index:</Text>
-          <Input
-            placeholder="Enter start index"
-            value={startIndex}
-            onChange={(e) => setStartIndex(e.target.value)}
-          />
-        </Box>
+  <Box>
+    <Text>Start Index:</Text>
+    <Input
+      placeholder="Enter start index"
+      value={startIndex}
+      onChange={(e) => setStartIndex(e.target.value)}
+    />
+  </Box>
 
-        <Box>
-          <Text>End Index:</Text>
-          <Input
-            placeholder="Enter end index"
-            value={endIndex}
-            onChange={(e) => setEndIndex(e.target.value)}
-          />
-        </Box>
+  <Box>
+    <Text>End Index:</Text>
+    <Input
+      placeholder="Enter end index"
+      value={endIndex}
+      onChange={(e) => setEndIndex(e.target.value)}
+    />
+  </Box>
 
-        <Box>
-          <Text>Number of Skip Frames:</Text>
-          <Input
-            placeholder="Enter number of skip frames"
-            value={numSkipFrames}
-            onChange={(e) => setNumSkipFrames(e.target.value)}
-          />
-        </Box>
+  <Box>
+    <Text>Number of Skip Frames:</Text>
+    <Input
+      placeholder="Enter number of skip frames"
+      value={numSkipFrames}
+      onChange={(e) => setNumSkipFrames(e.target.value)}
+    />
+  </Box>
 
-        <Button colorScheme="blue" onClick={handleFetchImages}>
-          Fetch Images
-        </Button>
-      </VStack>
+
+    
+</SimpleGrid>
+
+  <Button colorScheme="blue" onClick={handleFetchImages} width="100%">
+      Fetch Images
+    </Button>
 
       {/* Display the images fetched from the API */}
       <Box mt={8}>
