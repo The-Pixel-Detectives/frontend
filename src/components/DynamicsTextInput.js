@@ -12,7 +12,7 @@ const DynamicTextInput = forwardRef((props, ref) => {
   const [errorMessage, setErrorMessage] = useState(''); // Error message state
   const [isLoading, setIsLoading] = useState(false); // Loading state
 
-  
+
 
   // Handle translation using the API
   const handleTranslate = async () => {
@@ -69,17 +69,17 @@ const DynamicTextInput = forwardRef((props, ref) => {
   return (
     <Box>
       {/* Video ID input field */}
-      <HStack w="100%" align="top" justify="space-between" spacing="2" px="2" mb="4">
-        <Input
-          value={videoId}
-          placeholder="Enter Video ID"
-          size="md"
-          variant="outline"
-          focusBorderColor="blue"
-          onChange={(e) => setVideoId(e.target.value)}
-          flex="1"
-        />
-      </HStack>
+      {/* <HStack w="100%" align="top" justify="space-between" spacing="2" px="2" mb="4"> */}
+      {/*   <Input */}
+      {/*     value={videoId} */}
+      {/*     placeholder="Enter Video ID" */}
+      {/*     size="md" */}
+      {/*     variant="outline" */}
+      {/*     focusBorderColor="blue" */}
+      {/*     onChange={(e) => setVideoId(e.target.value)} */}
+      {/*     flex="1" */}
+      {/*   /> */}
+      {/* </HStack> */}
 
       {/* Vietnamese Input with Translate Button and Queries Input */}
       <VStack w="100%" align="top" justify="space-between" spacing="2" px="2" mb="4">

@@ -14,12 +14,14 @@ function App() {
   const sketchInputRef = useRef();
   // State to hold the combined results and thumbnails
   const [searchResults, setSearchResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Handle submit: collect inputs from both components and search
   const handleSubmit = async () => {
+	setIsLoading(true)
     setSearchResults([])
     console.log('Submit button clicked');
-    
+
     // Get text inputs and sketch files from both components
     const textInputs = textInputRef.current.getInputs();
     const videoId = textInputRef.current.getVideoId(); // Get Video ID
@@ -32,6 +34,7 @@ function App() {
     // Combine text inputs, video ID, and sketches in a single API call
     const results = await searchVideos(videoId, sketchFiles, textInputs); // Pass the video ID to the API
 
+	setIsLoading(false)
     setSearchResults(results); // Update search results
   };
 
@@ -54,6 +57,7 @@ function App() {
           height='48px'
           width='200px'
           colorScheme='orange'
+			isLoading={isLoading}
           onClick={handleSubmit} // Call handleSubmit on click
         >
           Submit
@@ -63,7 +67,7 @@ function App() {
       <Box width='100' my='4'>
         <CSVExport />
       </Box>
-      
+
       <Box w='100%'>
         {/* Pass the search results to GridDisplay */}
         <GridDisplay searchResults={searchResults} />
