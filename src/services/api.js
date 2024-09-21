@@ -19,7 +19,7 @@ export const searchVideos = async (videoID, sketches, textQueries) => {
 	}
   console.log('In api.js', textQueries)
 	try {
-		const response = await axios.post(`${API_BASE_URL}/search`, {
+		const response = await axios.post(`${HA_API_BASE_URL}/search`, {
 			image_ids: image_ids,
 			text_queries: textQueries,
 			top_k: 20,
@@ -37,7 +37,7 @@ const uploadImage = async (image) => {
 	const formData = new FormData()
 	formData.append("file", image)
 	try {
-		const response = await axios.post(`${API_BASE_URL}/upload-image`, formData);
+		const response = await axios.post(`${HA_API_BASE_URL}/upload-image`, formData);
 		return response.data.id;
 	} catch (error) {
 		console.error("Error searching videos:", error);
@@ -49,7 +49,7 @@ const uploadImage = async (image) => {
 export const fetchVideoPreview = async (groupId, videoId, startIndex, endIndex, numSkipFrames) => {
     try {
         // Make the GET request to fetch the video preview as binary data
-        const response = await axios.get(`${API_BASE_URL}/get-video-preview`, {
+        const response = await axios.get(`${HA_API_BASE_URL}/get-video-preview`, {
             params: {
                 group_id: groupId,
                 video_id: videoId,
@@ -73,7 +73,7 @@ export const fetchVideoPreview = async (groupId, videoId, startIndex, endIndex, 
 
 export const translateQuery = async (query, numFrames) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/translate`, {
+    const response = await axios.post(`${HA_API_BASE_URL}/translate`, {
       query: query,
       num_frames: numFrames,
     });
@@ -114,3 +114,19 @@ export const exportFrames = async (videoId, startTime, first_frame_end_time, end
   }
 };
 
+export const openVideo = async (videoId, startTime) => {
+  try {
+    const response = await axios.post(`${HA_API_BASE_URL}/open-video`, {
+      video_id: videoId,
+      start_time: startTime
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    console.log('API Response:', response.data);
+  } catch (error) {
+    console.error('Error during API call:', error);
+  }
+};
