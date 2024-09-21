@@ -1,14 +1,19 @@
 import React from 'react';
 import { Box, Image, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom'; 
-import { API_BASE_URL } from "../services/api";
+import { API_BASE_URL, openVideo } from "../services/api";
 
 function GridDisplay({ searchResults }) {
 
-  const handleVideoClick = (groupId, videoId) => {
-    const previewUrl = `/preview?group_id=${groupId}&video_id=${videoId}`; 
-    window.open(previewUrl, '_blank'); // Open the preview page in a new tab
+  const handleVideoClick = async (videoID) => {
+    console.log("Click!")
+    try {
+      await openVideo(videoID, '200');
+    } catch (error) {
+      console.error('Failed to download file', error);
+    }
   };
+
   return (
     <Box mt={8} width="100%">
       {searchResults.length > 0 ? (
@@ -33,7 +38,7 @@ function GridDisplay({ searchResults }) {
               width="100%"
               minHeight="200px"
               maxHeight="300px"
-              onClick={() => handleVideoClick(result.group_id, result.video_id)} // Navigate to the preview page when clicked
+              onClick={() => handleVideoClick(result.video_id)} // Navigate to the preview page when clicked
             />
           </Box>
         ))

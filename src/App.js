@@ -5,6 +5,8 @@ import GridDisplay from './components/GridDisplay';
 import { Flex, Container, Box, Center, Button } from '@chakra-ui/react';
 import React, { useRef, useState } from 'react';
 import { searchVideos, getVideoThumbnail } from './services/api'; // Import API functions
+import CSVExport from './components/CSVExport';
+
 
 function App() {
   // Refs to access methods in child components
@@ -57,6 +59,11 @@ function App() {
           Submit
         </Button>
       </Center>
+
+      <Box width='100' my='4'>
+        <CSVExport />
+      </Box>
+      
       <Box w='100%'>
         {/* Pass the search results to GridDisplay */}
         <GridDisplay searchResults={searchResults} />
