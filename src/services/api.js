@@ -6,7 +6,7 @@ import axios from "axios";
 export const API_BASE_URL = "http://localhost:8000"; // Adjust the URL to match your backend server
 
 // Function to search videos
-export const searchVideos = async (videoID, sketches, textQueries) => {
+export const searchVideos = async (videoID, sketches, textQueries, use_keyword_search, fuzzy, vietnamese_query) => {
 	const image_ids = []
 	console.log(sketches)
 	if (sketches.length > 0) {
@@ -22,7 +22,9 @@ export const searchVideos = async (videoID, sketches, textQueries) => {
 			image_ids: image_ids,
 			text_queries: textQueries,
 			top_k: 20,
-			video_id: videoID
+			use_keyword_search,
+			fuzzy,
+			vietnamese_query
 		});
 		return response.data.videos; // Access 'videos' property from the response
 	} catch (error) {

@@ -5,7 +5,7 @@ import GridDisplay from './components/GridDisplay';
 import { Flex, Container, Box, Center, Button } from '@chakra-ui/react';
 import React, { useRef, useState } from 'react';
 import { searchVideos, getVideoThumbnail } from './services/api'; // Import API functions
-import CSVExport from './components/CSVExport';
+// import CSVExport from './components/CSVExport';
 
 
 function App() {
@@ -30,6 +30,7 @@ function App() {
     const sketchFiles = sketchInputRef.current.getFiles();
     const isKeyword = textInputRef.current.getKeyword(); // Get Keyword state
     const isFuzzy = textInputRef.current.getFuzzy(); // Get Fuzzy state
+    const vietnameseQuery = textInputRef.current.getVietnameseQuery(); // Get Fuzzy state
 
     console.log('Text Inputs:', textInputs);
     console.log('Video ID:', videoId); // Log Video ID
@@ -38,10 +39,10 @@ function App() {
     console.log('Search by Fuzzy', isFuzzy);
 
     // Combine text inputs, video ID, and sketches in a single API call
-    const results = await searchVideos(videoId, sketchFiles, textInputs); // Pass the video ID to the API
+    const results = await searchVideos(videoId, sketchFiles, textInputs, isKeyword, isFuzzy, vietnameseQuery); // Pass the video ID to the API
 
 	setIsLoading(false)
-    // setSearchResults(results); // Update search results
+    setSearchResults(results); // Update search results
   };
 
   return (
@@ -70,9 +71,9 @@ function App() {
         </Button>
       </Center>
 
-      <Box width='100' my='4'>
-        <CSVExport />
-      </Box>
+      {/* <Box width='100' my='4'> */}
+      {/*   <CSVExport /> */}
+      {/* </Box> */}
 
       <Box w='100%'>
         {/* Pass the search results to GridDisplay */}

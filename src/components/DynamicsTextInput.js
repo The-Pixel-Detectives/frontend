@@ -67,6 +67,7 @@ const DynamicTextInput = forwardRef((props, ref) => {
     getQueries: () => queries, // Method to get number of queries
     getKeyword: () => isKeyword, // Get state of Keyword checkbox
     getFuzzy: () => isFuzzy, // Get state of Fuzzy checkbox
+    getVietnameseQuery: () => vietnamesePrompt, // Get state of Fuzzy checkbox
   }));
 
   return (
