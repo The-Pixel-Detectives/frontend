@@ -3,30 +3,32 @@ import { Box, Button, Input, FormControl, FormLabel, HStack, VStack, useToast } 
 import { exportFrames } from '../services/api';
 
 const CSVExport = () => {
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
+  const [startMinutes, setStartMinutes] = useState('');
+  const [startSeconds, setStartSeconds] = useState('');
+
+  const [firstFrameEndMinutes, setFirstFrameEndMinutes] = useState('');
+  const [firstFrameEndSeconds, setFirstFrameEndSeconds] = useState('');
+
+  const [endMinutes, setEndMinutes] = useState('');
+  const [endSeconds, setEndSeconds] = useState('');
+
   const [videoId, setVideoId] = useState('');
   const [filename, setFileName] = useState('');
+
   const [qa, setQA] = useState('-1')
-  const [first_frame_end_time, setFirstFrameEndTime] = useState('')
+
   const toast = useToast();
 
-
-  // const downloadCSV = (blob, filename) => {
-  //   const fileUrl = window.URL.createObjectURL(new Blob([blob]));
-  //   const link = document.createElement('a');
-  //   link.href = fileUrl;
-  //   link.setAttribute('download', `${filename}.csv`);
-  //   document.body.appendChild(link);
-  //   link.click();
-  //   document.body.removeChild(link);
-  // };
 
 
   const handleDownload = async () => {
     console.log("Click!")
+    const startTimeInSeconds = Number(startMinutes) * 60 + Number(startSeconds);
+    const firstFrameEndTimeInSeconds = Number(firstFrameEndMinutes) * 60 + Number(firstFrameEndSeconds);
+    const endTimeInSeconds = Number(endMinutes) * 60 + Number(endSeconds);
+    console.log(startTimeInSeconds, firstFrameEndTimeInSeconds, endTimeInSeconds )
     try {
-      await exportFrames(videoId, startTime, first_frame_end_time, endTime, filename, qa);
+      await exportFrames(videoId, startTimeInSeconds, firstFrameEndTimeInSeconds, endTimeInSeconds, filename, qa);
     } catch (error) {
       console.error('Failed to download file', error);
     }
@@ -35,71 +37,101 @@ const CSVExport = () => {
 
   return (
     <Box p={6} w='100' mx="auto">
-      <VStack spacing={4} alignItems="flex-start">
-        <HStack spacing={4}  w='100' justify={'around'}>
-          <FormControl w='25'>
-            <FormLabel>Start Time (seconds)</FormLabel>
-            <Input
-              placeholder="Enter start time"
-              type="number"
-              value={startTime}
-              onChange={(e) => setStartTime(e.target.value)}
-              w='100'
-            />
-          </FormControl>
-
-          <FormControl w='25'>
-            <FormLabel>First Frame End (seconds)</FormLabel>
-            <Input
-              placeholder="First Frame End Time"
-              type="number"
-              value={first_frame_end_time}
-              onChange={(e) => setFirstFrameEndTime(e.target.value)}
-              w='100'
-            />
-          </FormControl>
-          
-          <FormControl w='25'>
-            <FormLabel>End Time (seconds)</FormLabel>
-            <Input
-              placeholder="Enter end time"
-              type="number"
-              value={endTime}
-              onChange={(e) => setEndTime(e.target.value)}
-              w='100'
-            />
-          </FormControl>
-
-          <FormControl w='25'>
-            <FormLabel>Video ID</FormLabel>
-            <Input
-              placeholder="Enter video ID"
-              value={videoId}
-              onChange={(e) => setVideoId(e.target.value)}
-              w='100'
-            />
-          </FormControl>
-          
-          <FormControl w='25'>
-            <FormLabel>Filename</FormLabel>
-            <Input
-              placeholder="Enter filename"
-              value={filename}
-              onChange={(e) => setFileName(e.target.value)}
-              w='100'
-            />
-          </FormControl>
-
-          <FormControl w='25'>
-            <FormLabel>QA</FormLabel>
-            <Input
-              placeholder="Enter QA"
-              value={qa}
-              onChange={(e) => setQA(e.target.value)}
-              w='100'
-            />
-          </FormControl>
+      <VStack spacing={4} alignItems="flex-start" w='100%'>
+        <HStack  w="100%">
+          <FormControl>
+              <FormLabel>Video_ID</FormLabel>
+              <HStack>
+                <Input
+                  placeholder="Enter video ID"
+                  value={videoId}
+                  onChange={(e) => setVideoId(e.target.value)}
+                />
+              </HStack>
+            </FormControl>
+            <FormControl>
+              <FormLabel>Filename</FormLabel>
+              <HStack>
+                <Input
+                  placeholder="Enter filename"
+                  value={filename}
+                  onChange={(e) => setFileName(e.target.value)}
+                />
+              </HStack>
+            </FormControl>
+            <FormControl>
+              <FormLabel>Answer</FormLabel>
+              <HStack>
+                <Input
+                  placeholder="Enter QA"
+                  value={qa}
+                  onChange={(e) => setQA(e.target.value)}
+                  w='100'
+                />
+              </HStack>
+            </FormControl>
         </HStack>
+        <VStack spacing={4}  w='100%' justify={'around'}>
+          <FormControl w='100%'>
+            <FormLabel>Start Time</FormLabel>
+            <HStack>
+              <Input
+                placeholder="Minutes"
+                type="number"
+                value={startMinutes}
+                onChange={(e) => setStartMinutes(e.target.value)}
+                w='50%'
+              />
+              <Input
+                placeholder="Seconds"
+                type="number"
+                value={startSeconds}
+                onChange={(e) => setStartSeconds(e.target.value)}
+                w='50%'
+              />
+            </HStack>
+          </FormControl>
+
+          <FormControl w='100%'>
+            <FormLabel>First Frame End Time</FormLabel>
+            <HStack>
+              <Input
+                placeholder="Minutes"
+                type="number"
+                value={firstFrameEndMinutes}
+                onChange={(e) => setFirstFrameEndMinutes(e.target.value)}
+                w='50%'
+              />
+              <Input
+                placeholder="Seconds"
+                type="number"
+                value={firstFrameEndSeconds}
+                onChange={(e) => setFirstFrameEndSeconds(e.target.value)}
+                w='50%'
+              />
+            </HStack>
+          </FormControl>
+
+          <FormControl w='100%'>
+            <FormLabel>End Time</FormLabel>
+            <HStack>
+              <Input
+                placeholder="Minutes"
+                type="number"
+                value={endMinutes}
+                onChange={(e) => setEndMinutes(e.target.value)}
+                w='50%'
+              />
+              <Input
+                placeholder="Seconds"
+                type="number"
+                value={endSeconds}
+                onChange={(e) => setEndSeconds(e.target.value)}
+                w='50%'
+              />
+            </HStack>
+          </FormControl>
+        </VStack>
 
         <Button colorScheme="orange" alignSelf="center" mt='6' onClick={handleDownload}>
           Export CSV

@@ -1,5 +1,5 @@
 import React, { useState, forwardRef, useImperativeHandle } from 'react';
-import { Button, VStack, HStack, IconButton, Box, Input, Textarea } from '@chakra-ui/react';
+import { Button, VStack, HStack, IconButton, Box, Input, Textarea, Checkbox} from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';
 import { translateQuery } from '../services/api';  // Import the translateQuery function
 
@@ -11,7 +11,8 @@ const DynamicTextInput = forwardRef((props, ref) => {
   const [queries, setQueries] = useState(1); // Number of queries input field
   const [errorMessage, setErrorMessage] = useState(''); // Error message state
   const [isLoading, setIsLoading] = useState(false); // Loading state
-
+  const [isKeyword, setIsKeyword] = useState(false); // Default: unchecked (false)
+  const [isFuzzy, setIsFuzzy] = useState(false); // Default: unchecked (false)
 
 
   // Handle translation using the API
@@ -64,6 +65,8 @@ const DynamicTextInput = forwardRef((props, ref) => {
     getInputs: () => inputs, // Method to get translated inputs
     getVideoId: () => videoId, // Method to get the videoId
     getQueries: () => queries, // Method to get number of queries
+    getKeyword: () => isKeyword, // Get state of Keyword checkbox
+    getFuzzy: () => isFuzzy, // Get state of Fuzzy checkbox
   }));
 
   return (
@@ -165,6 +168,21 @@ const DynamicTextInput = forwardRef((props, ref) => {
           Add Text Query
         </Button>
       </Box>
+
+      <HStack w="100%" mb="4" px="2">
+        <Checkbox
+          isChecked={isKeyword}
+          onChange={(e) => setIsKeyword(e.target.checked)}
+        >
+          Keyword
+        </Checkbox>
+        <Checkbox
+          isChecked={isFuzzy}
+          onChange={(e) => setIsFuzzy(e.target.checked)}
+        >
+          Fuzzy
+        </Checkbox>
+      </HStack>
     </Box>
   );
 });
