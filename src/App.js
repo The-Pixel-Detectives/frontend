@@ -12,6 +12,8 @@ function App() {
   // Refs to access methods in child components
   const textInputRef = useRef();
   const sketchInputRef = useRef();
+  const keywordInputRef = useRef();
+  const fuzzyInputRef = useRef();
   // State to hold the combined results and thumbnails
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,16 +28,20 @@ function App() {
     const textInputs = textInputRef.current.getInputs();
     const videoId = textInputRef.current.getVideoId(); // Get Video ID
     const sketchFiles = sketchInputRef.current.getFiles();
+    const isKeyword = textInputRef.current.getKeyword(); // Get Keyword state
+    const isFuzzy = textInputRef.current.getFuzzy(); // Get Fuzzy state
 
     console.log('Text Inputs:', textInputs);
     console.log('Video ID:', videoId); // Log Video ID
     console.log('Sketch Files:', sketchFiles);
+    console.log('Search by keyword', isKeyword);
+    console.log('Search by Fuzzy', isFuzzy);
 
     // Combine text inputs, video ID, and sketches in a single API call
     const results = await searchVideos(videoId, sketchFiles, textInputs); // Pass the video ID to the API
 
 	setIsLoading(false)
-    setSearchResults(results); // Update search results
+    // setSearchResults(results); // Update search results
   };
 
   return (

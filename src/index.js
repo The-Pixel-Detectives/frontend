@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import PreviewPage from './components/Preview'; // Import the PreviewPage component
+import CSVExport from './components/CSVExport';
 import reportWebVitals from './reportWebVitals';
 import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Import routing components
@@ -19,7 +19,7 @@ root.render(
           <Route path="/" element={<App />} />
 
           {/* Define the preview page route */}
-          <Route path="/preview" element={<PreviewPage />} />
+          <Route path="/csv" element={<CSVExport/>} />
         </Routes>
       </Router>
     </ChakraProvider>
