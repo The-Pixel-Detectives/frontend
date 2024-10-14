@@ -115,10 +115,11 @@ export const exportFrames = async (videoId, startTime, first_frame_end_time, end
   }
 };
 
-export const openVideo = async (videoId, startTime) => {
+export const openVideo = async (groupId, videoId, startTime) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/open-video`, {
       video_id: videoId,
+      group_id: groupId,
       start_time: startTime
     }, {
       headers: {

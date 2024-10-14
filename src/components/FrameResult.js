@@ -6,7 +6,7 @@ function FrameResult({ group_id, video_id, frame_index, timestamp }) {
 
   const handleImageClick = async () => {
     try {
-      await openVideo(video_id, `${timestamp}`);
+      await openVideo(group_id, video_id, `${timestamp}`);
     } catch (error) {
       console.error('Failed to Open file', error);
     }
